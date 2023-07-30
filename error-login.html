@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ingreso</title>
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> -->
+
+    <!-- bootstrap sin internet -->
+    <link rel="stylesheet" href="./css/bootstrap-5.3.0-alpha3-dist/css/bootstrap.css">
+
+    <link rel="stylesheet" href="css/style1.css">
+    <!-- Favicon -->
+    <link href="img/logo-zona-gym.png" rel="icon">
+    <link href="img/logo-zona-gym.png" rel="icon">
+</head>
+<body onload="form1.usuario.focus()">
+    <div class="form-container">
+        <h2 class="titulo1" style="font-size: 36px;">ERROR AL INICIAR SESION</h2>
+        <form method="post" name="form1" action="control-ingreso/ingresar.php">
+            <div class="form-group">
+                <input type="text" autocomplete="off" placeholder="Usuario" class="form-control" maxlength="20" id="usuario" name="usuario" required><br>
+            </div>
+            <div class="form-group">
+                <input type="password" autocomplete="off" maxlength="20" placeholder="Contraseña" class="form-control" id="contra" name="contra" required>
+            </div><br>
+            <a class="ingresar" href="./recuperar-contra.html">Olvidaste tu Contraseña?</a><br><br>
+            <a class="ingresar" href="index.html">Ir al inicio</a><br>
+            <button type="submit" value="ingresar" name="ingresar" class="btn btn-warning btn-re">Ingresar</button>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> -->
+    <!-- bootstrap sin internet -->
+    <link rel="stylesheet" href="./css/bootstrap-5.3.0-alpha3-dist/css/bootstrap.css">
+
+    <link rel="stylesheet" href="css/style1.css">
+    <!-- Favicon -->
+    <link href="img/logo-zona-gym.png" rel="icon">
+    
+    <link rel="stylesheet" href="./css/fonts/fonts.css">
+    <title>OLVIDO DE CONTRASEÑA</title>
+</head>
+<body onload="form1.document.focus()">
+    <div class="form-container">
+        <h2 class="titulo1" >RECUPERAR CONTRASEÑA</h2>
+        <!-- el formulario la lleva a nueva-contra.php -->
+        <form method="POST" name="form1" id="form1" autocomplete="off" action="control-ingreso/nueva-contra.php"><br>
+            <input class="documento input" style="border-radius:1rem;text-align:center;margin-left:8%;height:40px;width:250px;" type="text" pattern="[0-9]{6,10}" maxlength="10" onkeyup="numeros(this),espacios()" name="documento" id="doc" placeholder="Digite documento identidad"><br><br>
+            <a href="login.php" class="ingresar">Atras</a><br><br>
+            <a class="ingresar" href="index.html">Ir al inicio</a><br>
+            <input type="submit" class="btn btn-warning btn-validar" name="inicio" id="inicio" value="Cambiar">
+        </form>
+
+    </div>
+</body>
+<script>
+    function mayuscula(e){
+        e.value = e.value.toUpperCase();
+    }
+    function minuscula(e){
+        e.value = e.value.toLowerCase();
+    }
+    function numeros(e){
+        e.value = e.value.replace(/[^0-9\.]/g, '');
+    }
+    function espacios(e){
+        e.value = e.value.replace(/ /g, '');
+    }
+</script>
+</html>

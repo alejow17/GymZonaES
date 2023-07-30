@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Russo+One&display=swap');
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image:url(../../../img/fondo-admin.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.form-container {
+    width: 500px;
+    padding: 50px;
+    background: #000000;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #434343, #000000);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #434343, #000000); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    border-radius: 1rem;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.titulo1{
+    text-align: center;
+    font-size: 45px;
+    color:rgb(238, 191, 0);
+    font-family: 'Anton' sans-serif;
+    -webkit-text-stroke: 0.6px white;
+    font-weight: 700;
+}
+
+h2{
+    text-align: center;
+    font-size: 36px;
+    color: rgb(255, 255, 255);
+    margin-bottom: 20px;
+    font-family: 'Russo One', sans-serif;
+}
+
+.btn-atras{
+    margin-left: -30px;
+    margin-top: -50px;
+}
