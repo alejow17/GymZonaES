@@ -14,7 +14,7 @@
 ?>
 
 <?php
-    $consulta = $conexion->prepare("SELECT * FROM roles");
+    $consulta = $conexion->prepare("SELECT * FROM roles WHERE id_roles=1 or id_roles=2");
     $consulta->execute();
     $consul=$consulta->fetch();
 ?>
@@ -24,6 +24,8 @@
     {
         $documento=$_POST['documento'];
         $nombre=$_POST['nombre'];
+        $telefono=$_POST['telefono'];
+        $correo=$_POST['correo'];
         $nacimiento = $_POST['nacimiento'];
         $usuario=$_POST['usuario'];
         $contra=$_POST['contra'];
@@ -56,7 +58,7 @@
 
         else
         {
-            $consulta3 = $conexion -> prepare ("INSERT INTO usuarios (documento, nombre, nacimiento, usuario, password, id_roles, id_estado_login) VALUES ('$documento','$nombre', '$nacimiento','$usuario','$hash','$rol',2)");
+            $consulta3 = $conexion -> prepare ("INSERT INTO usuarios (documento, nombre, telefono, correo, nacimiento, usuario, password, id_roles, id_estado_login) VALUES ('$documento','$nombre', '$telefono', '$correo', '$nacimiento','$usuario','$hash','$rol',2)");
             $consulta3->execute();
             echo '<script>alert ("Registro exitoso, gracias");</script>';
             echo'<script>window.location="../listar/listar-usuarios.php"</script>';
@@ -85,38 +87,67 @@
             <form class="volver" method="post">
                 <button name="boton_volver" class="btn btn-danger btn-atras">Atras</button>
             </form>
-        <h2 class="titul1">CREAR USUARIO</h2>
-        <form method="post" >
-            <div class="form-group">
-                <input type="text" autocomplete="off" placeholder="Documento de identidad" pattern="[0-9]{6,10}" title="debe tener de 6 a 10 numeros" maxlength="10" onkeyup="numeros(this)" class="form-control" id="documento" name="documento" required><br>
+            <h2 class="titul1">CREAR USUARIO</h2>
+        <form method="post">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <input type="text" autocomplete="off" placeholder="Documento" pattern="[0-9]{6,10}" title="debe tener de 6 a 10 numeros" maxlength="10" onkeyup="numeros(this)" class="form-control" id="documento" name="documento" required><br>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <input type="text" autocomplete="off" placeholder="Nombre" class="form-control" pattern="[a-zA-Z ]+" onkeyup="letras(this)" maxlength="50" id="nombre" name="nombre" required><br>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <input type="text" autocomplete="off" placeholder="Nombre" class="form-control" pattern="[a-zA-Z ]+" onkeyup="letras(this)" maxlength="50" id="nombre" name="nombre" required><br>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <input type="text" autocomplete="off" placeholder="Telefono" pattern="[0-9]{6,10}" title="debe tener de 6 a 10 numeros" maxlength="10" onkeyup="numeros(this)" class="form-control" id="telefono" name="telefono" required><br>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <input type="text" autocomplete="off" placeholder="Correo" class="form-control" maxlength="80" id="correo" name="correo" required><br>
+                    </div>
+                </div>
             </div>
-            <div class="form-group input-group">
-                <span class="input-group-text">Fecha de nacimiento</span>
-                <input type="date" autocomplete="off" placeholder="" class="form-control" maxlength="30" id="fecha" name="nacimiento" required>
-            </div><br>
-            <div class="form-group">
-                <input type="text" autocomplete="off" placeholder="Usuario" class="form-control" pattern="{0,50}" maxlength="20" onkeyup="espacios(this)" id="usuario" name="usuario" required><br>
+
+            <div class="row">
+                <div class="col-md-6">
+                <label style="color: white;">Fecha de nacimiento</label>
+                    <div class="form-group input-group">
+                        <input type="date" autocomplete="off" placeholder="" class="form-control" maxlength="30" id="fecha" name="nacimiento" required>
+                    </div><br>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <input type="text" autocomplete="off" placeholder="Usuario" class="form-control" pattern="{0,50}" maxlength="20" onkeyup="espacios(this)" id="usuario" name="usuario" required><br>
+                    </div>
+                </div>
             </div>
-            
-            <div class="form-group">
-                <input type="password" autocomplete="off" pattern=".{6,12}" maxlength="12" title="Debe tener de 6 a 12 digitos" onkeyup="espacios(this)" placeholder="Contraseña" class="form-control" id="contra" name="contra" required>
-            </div><br>
-            <select class="form-select" name="rol">
-            <option value="">Seleccione tipo de usuario</option>
-                <?php
 
-                do{
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <input type="password" autocomplete="off" pattern=".{6,12}" maxlength="12" title="Debe tener de 6 a 12 digitos" onkeyup="espacios(this)" placeholder="Contraseña" class="form-control" id="contra" name="contra" required>
+                    </div><br>
+                </div>
+                <div class="col-md-6">
+                    <select class="form-select" name="rol">
+                        <option value="">Tipo de usuario</option>
+                        <?php
+                        do {
+                        ?>
+                            <option value="<?php echo ($consul['id_roles']) ?>"><?php echo ($consul['roles']) ?></option>
+                        <?php
+                        } while ($consul = $consulta->fetch());
+                        ?>
+                    </select><br><br>
+                </div>
+            </div>
 
-                ?>
-            <option value="<?php echo ($consul['id_roles'])?>"><?php echo ($consul['roles'])?></option>
-            <?php
-                }while($consul=$consulta->fetch());
-
-            ?>
-        </select><br><br>
             <button type="submit" value="registrar" name="btn-registrar" class="btn btn-warning boton-registrar">Registrar</button>
         </form>
     </div>

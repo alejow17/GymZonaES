@@ -98,6 +98,8 @@ if (isset($_GET['cambiar_estado']) && $_GET['cambiar_estado'] == 1) {
             <tr style="text-align: center;">
                 <th style="text-align: center;">Documento</th>
                 <th style="text-align: center;">Nombre</th>
+                <th style="text-align: center;">Telefono</th>
+                <th style="text-align: center;">Correo</th>
                 <th style="text-align: center;">Nacimiento</th>
                 <th style="text-align: center;">Usuario</th>
                 <th style="text-align: center;">Tipo de usuario</th>
@@ -115,6 +117,12 @@ if (isset($_GET['cambiar_estado']) && $_GET['cambiar_estado'] == 1) {
                     </td>
                     <td style="text-align: center;">
                         <?= $cons['nombre'] ?>
+                    </td>
+                    <td style="text-align: center;">
+                        <?= $cons['telefono'] ?>
+                    </td>
+                    <td style="text-align: center;">
+                        <?= $cons['correo'] ?>
                     </td>
                     <td style="text-align: center;">
                         <?= $cons['nacimiento'] ?>

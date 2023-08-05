@@ -6,7 +6,12 @@ $conexion = $bd->conectar();
 $page = isset($_GET['page']) ? $_GET['page'] : 1;
 $entriesPerPage = 5;
 $offset = ($page - 1) * $entriesPerPage;
-$consulta = $conexion->prepare("SELECT * FROM usuarios INNER JOIN roles ON usuarios.id_roles=roles.id_roles WHERE usuarios.id_roles=3 LIMIT $offset, $entriesPerPage");
+$consulta = $conexion->prepare("SELECT usuarios.documento, usuarios.nombre, usuarios.telefono, usuarios.correo, usuarios.nacimiento, genero.genero
+                                FROM usuarios
+                                INNER JOIN roles ON usuarios.id_roles = roles.id_roles
+                                LEFT JOIN genero ON usuarios.id_genero = genero.id_genero
+                                WHERE usuarios.id_roles = 3
+                                LIMIT $offset, $entriesPerPage");
 $consulta->execute();
 session_start();
 include "../../../control-ingreso/validar-sesion.php";
@@ -96,6 +101,9 @@ if (isset($_POST['boton_volver'])) {
             <tr style="text-align: center;">
                 <th style="text-align: center;">Documento</th>
                 <th style="text-align: center;">Nombre</th>
+                <th style="text-align: center;">Genero</th>
+                <th style="text-align: center;">Telefono</th>
+                <th style="text-align: center;">Correo</th>
                 <th style="text-align: center;">Nacimiento</th>
                 <th style="text-align: center;" colspan="2">Accion</th>
             </tr>
@@ -108,6 +116,15 @@ if (isset($_POST['boton_volver'])) {
                     </td>
                     <td style="text-align: center;">
                         <?= $cons['nombre'] ?>
+                    </td>
+                    <td style="text-align: center;">
+                        <?= $cons['genero'] ?>
+                    </td>
+                    <td style="text-align: center;">
+                        <?= $cons['telefono'] ?>
+                    </td>
+                    <td style="text-align: center;">
+                        <?= $cons['correo'] ?>
                     </td>
                     <td style="text-align: center;">
                         <?= $cons['nacimiento'] ?>

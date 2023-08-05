@@ -243,15 +243,15 @@ if (isset($_POST['boton_volver'])) {
 			<?php
 		} else if ($_GET["status"] === "6") {
 			?>
-							<div class="alert alert-danger">
-								<strong>Error: </strong>No ha seleccionado ningun producto
-							</div>
+								<div class="alert alert-danger">
+									<strong>Error: </strong>No ha seleccionado ningun producto
+								</div>
 			<?php
 		} else {
 			?>
-							<div class="alert alert-danger">
-								<strong>Error:</strong> Algo salió mal mientras se realizaba la venta
-							</div>
+								<div class="alert alert-danger">
+									<strong>Error:</strong> Algo salió mal mientras se realizaba la venta
+								</div>
 			<?php
 		}
 	}
@@ -261,10 +261,18 @@ if (isset($_POST['boton_volver'])) {
 		<label for="codigo">Busqueda por nombre:</label>
 		<div class="ui-widget">
 			<select name="codigo" id="combobox">
-				<option value>Select one...</option>
-				<?php do { ?>
-					<option value="<?= $prodsrows['id'] ?>"><?= $prodsrows['descripcion'] ?></option>
-				<?php } while ($prodsrows = $prods->fetch()) ?>
+				<?php
+				if ($prods->rowCount() === 0) {
+					// Si no hay productos registrados, mostrar mensaje deshabilitado
+					echo '<option disabled selected>No hay productos registrados</option>';
+				} else {
+					// Si hay productos, mostrar las opciones del select
+					echo '<option value="">Select one...</option>';
+					do {
+						echo '<option value="' . $prodsrows['id'] . '">' . $prodsrows['descripcion'] . '</option>';
+					} while ($prodsrows = $prods->fetch());
+				}
+				?>
 			</select>
 			<input type="submit" class="btn btn-primary" style="float: right;">
 		</div>

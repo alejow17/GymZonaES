@@ -1,61 +1,65 @@
 <?php
-    require_once("../../../bd/conexion.php");
-    $basedatos = new Database();
-    $conexion = $basedatos->conectar();
-    session_start();
-    include "../../../control-ingreso/validar-sesion.php";
-    date_default_timezone_set('America/Bogota');
+require_once("../../../bd/conexion.php");
+$basedatos = new Database();
+$conexion = $basedatos->conectar();
+session_start();
+include "../../../control-ingreso/validar-sesion.php";
+date_default_timezone_set('America/Bogota');
 ?>
 
 <?php
-    if(isset($_POST['boton_volver'])){
-        echo '<script>window.location="../listar/listar-clientes.php"</script>';
-    }
+if (isset($_POST['boton_volver'])) {
+    echo '<script>window.location="../listar/listar-clientes.php"</script>';
+}
 ?>
 
 <?php
-    $consulta = $conexion->prepare("SELECT * FROM roles");
-    $consulta->execute();
-    $consul=$consulta->fetch();
+$consulta = $conexion->prepare("SELECT * FROM roles");
+$consulta->execute();
+$consul = $consulta->fetch();
 ?>
 
-<?php 
-    if ((isset($_POST["btn-registrar"])))
-    {
-        $documento=$_POST['documento'];
-        $nombre=$_POST['nombre'];
-        $nacimiento = $_POST['nacimiento'];
+<?php
+$consulta_genero = $conexion->prepare("SELECT * FROM genero");
+$consulta_genero->execute();
+$generos = $consulta_genero->fetchAll();
+?>
 
-        $consulta2= $conexion -> prepare("SELECT * FROM usuarios WHERE documento= '$documento'");
-        $consulta2->execute();
-        $consull=$consulta2->fetch();
+<?php
+if ((isset($_POST["btn-registrar"]))) {
+    $documento = $_POST['documento'];
+    $nombre = $_POST['nombre'];
+    $genero = $_POST['genero'];
+    $nacimiento = $_POST['nacimiento'];
+    $telefono = $_POST['telefono'];
+    $correo = $_POST['correo'];
 
-        if ($consull) {
-            echo '<script>alert ("El documento ya se ha registrado, ingrese otro.");</script>';
-            echo '<script>windows.location="registrousu.php"</script>';
-        }
-        else if ($consull) {
-            echo '<script>alert ("El usuario ya existe, por favor ingrese otro.");</script>';
-            echo '<script>windows.location="registrousu.php"</script>';
-        }
-            else if ($documento=="" || $nombre=="" || $nacimiento=="")
-            {
-                echo '<script>alert ("EXISTEN DATOS VACIOS");</script>';
-                echo '<script>windows.location="registrousu.php"</script>';
-            }
 
-        else
-        {
-            $consulta3 = $conexion -> prepare ("INSERT INTO usuarios (documento, nombre, nacimiento, id_roles) VALUES ('$documento','$nombre', '$nacimiento',3)");
-            $consulta3->execute();
-            echo '<script>alert ("Registro exitoso, gracias");</script>';
-            echo'<script>window.location="../listar/listar-clientes.php"</script>';
-        }
-    }
+    $consulta2 = $conexion->prepare("SELECT * FROM usuarios WHERE documento= '$documento'");
+$consulta2->execute();
+$consull = $consulta2->fetch();
+
+if ($consull) {
+    echo '<script>alert ("El documento ya se ha registrado, ingrese otro.");</script>';
+    echo '<script>windows.location="registrousu.php"</script>';
+} else if ($consull) {
+    echo '<script>alert ("El usuario ya existe, por favor ingrese otro.");</script>';
+    echo '<script>windows.location="registrousu.php"</script>';
+} else if ($documento == "" || $nombre == "" || $nacimiento == "") {
+    echo '<script>alert ("EXISTEN DATOS VACIOS");</script>';
+    echo '<script>windows.location="registrousu.php"</script>';
+} else {
+    $consulta3 = $conexion->prepare("INSERT INTO usuarios (documento, nombre, id_genero, telefono, correo, nacimiento, id_roles) VALUES ('$documento','$nombre', '$genero' ,'$telefono', '$correo', '$nacimiento',3)");
+    $consulta3->execute();
+    echo '<script>alert ("Registro exitoso, gracias");</script>';
+    echo '<script>window.location="../listar/listar-clientes.php"</script>';
+}
+}
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -68,43 +72,75 @@
     <!-- favicon -->
     <link rel="icon" href="../../../img/logo-zona-gym.png">
     <link rel="stylesheet" href="../../../css/fonts/fonts.css">
-    <title>Crear Usuario</title>
+    <title>Crear cliente</title>
 </head>
-<body onload="limitarFechas()" >
+
+<body onload="limitarFechas()">
     <div class="form-container">
-            <form class="volver" method="post">
-                <button name="boton_volver" class="btn btn-danger btn-atras">Atras</button>
-            </form>
+        <form class="volver" method="post">
+            <button name="boton_volver" class="btn btn-danger btn-atras">Atras</button>
+        </form>
         <h2 class="titul1">CREAR CLIENTE</h2><br>
-        <form method="post" >
-            <div class="form-group">
-                <input type="text" autocomplete="off" placeholder="Documento de identidad" pattern="[0-9]{6,10}" title="debe tener de 6 a 10 numeros" maxlength="10" onkeyup="numeros(this)" class="form-control" id="documento" name="documento" required><br>
+        <form method="post">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <input type="text" autocomplete="off" placeholder="Documento de identidad" pattern="[0-9]{6,10}"
+                            title="debe tener de 6 a 10 numeros" maxlength="10" onkeyup="numeros(this)"
+                            class="form-control" id="documento" name="documento" required><br>
+                    </div>
+                    <div class="form-group">
+                        <input autocomplete="off" placeholder="Nombre" class="form-control" onkeyup="letras(this)"
+                            maxlength="50" id="nombre" name="nombre" required><br>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <select class="form-select" name="genero" required>
+                            <option value="" selected>Género</option>
+                            <?php foreach ($generos as $genero) { ?>
+                                <option value="<?php echo $genero['id_genero']; ?>"><?php echo $genero['genero']; ?></option>
+                            <?php } ?>
+                        </select><br>
+                    </div>
+                    <div class="form-group">
+                        <input autocomplete="off" placeholder="Telefono" class="form-control" onkeyup="numeros(this)"
+                            pattern="[0-9]{6,10}" maxlength="10" id="telefono" name="telefono" required><br>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <input autocomplete="off" placeholder="Correo" class="form-control" maxlength="80" id="correo"
+                            name="correo" required><br>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                <label style="color: white;" >Fecha de nacimiento</label>
+                    <div class="form-group input-group">
+                        <input type="date" autocomplete="off" placeholder="" class="form-control" maxlength="30"
+                            id="fecha" name="nacimiento" required>
+                    </div><br>
+                </div>
             </div>
-            <div class="form-group">
-                <input autocomplete="off" placeholder="Nombre" class="form-control" onkeyup="letras(this)" maxlength="50" id="nombre" name="nombre" required><br>
-            </div>
-            <div class="form-group input-group">
-                <span class="input-group-text">Fecha de nacimiento</span>
-                <input type="date" autocomplete="off" placeholder="" class="form-control" maxlength="30" id="fecha" name="nacimiento" required>
-            </div><br>
-            <button type="submit" value="registrar" name="btn-registrar" class="btn btn-warning boton-registrar">Registrar</button>
+            <button type="submit" value="registrar" name="btn-registrar"
+                class="btn btn-warning boton-registrar">Registrar</button>
         </form>
     </div>
 </body>
 <script>
-    function mayuscula(e){
+    function mayuscula(e) {
         e.value = e.value.toUpperCase();
     }
-    function minuscula(e){
+    function minuscula(e) {
         e.value = e.value.toLowerCase();
     }
-    function numeros(e){
+    function numeros(e) {
         e.value = e.value.replace(/[^0-9\.]/g, '');
     }
-    function espacios(e){
+    function espacios(e) {
         e.value = e.value.replace(/ /g, '');
     }
-    function letras(e){
+    function letras(e) {
         e.value = e.value.replace(/[^A-Za-z]/g, ' ');
     }
 
@@ -124,4 +160,5 @@
     fechaInput.setAttribute('min', fechaMinimaFormateada);
     fechaInput.setAttribute('max', fechaMaximaFormateada);
 </script>
+
 </html>

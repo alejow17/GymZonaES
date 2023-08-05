@@ -78,20 +78,18 @@ if ((isset($_POST["btn-registrar"]))) {
                 <input type="text" autocomplete="off" placeholder="" value="<?php echo $fecha_actual ?>" class="form-control" name="fecha" readonly>
             </div><br>
             <div class="form-group">
-                <select required class="form-select" name="servicio">
-                    <option value="">Seleccione servicio</option>
-                    <?php
-
-                    do {
-
-                    ?>
-                        <option value="<?php echo ($selectserv['id_servicio']) ?>"><?php echo ($selectserv['desc_servicio']) ?></option>
-                    <?php
-                    } while ($selectserv = $servicios->fetch());
-
-                    ?>
-                </select>
-            </div>
+    <select required class="form-select" name="servicio">
+        <option value="">Seleccione servicio</option>
+        <?php
+        do {
+            $precio = $selectserv['precio'];
+        ?>
+            <option value="<?php echo ($selectserv['id_servicio']) ?>"><?php echo ($selectserv['desc_servicio'] . " - $" . $precio) ?></option>
+        <?php
+        } while ($selectserv = $servicios->fetch());
+        ?>
+    </select>
+</div>
             <br>
             <div class="form-group">
                 <select class="form-select" required class="select" name="doc_client">
